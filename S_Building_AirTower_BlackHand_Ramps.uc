@@ -8,7 +8,7 @@ simulated function String GetHumanReadableName()
 
 defaultproperties
 {
-	BuildingInternalsClass  = S_Building_AirTower_Internals_Ramps
+	BuildingInternalsClass  = S_Building_AirTower_Internals_BlackHand_Ramps
 
     Begin Object Class=StaticMeshComponent Name=Static_Ramps
         StaticMesh = StaticMesh'S_BU_AirStrip.Mesh.SM_AirTower_Ramp'
