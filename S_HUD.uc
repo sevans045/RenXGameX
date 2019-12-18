@@ -1,6 +1,6 @@
 class S_HUD extends Rx_HUD;
 
-simulated function PostBeginPlay() 
+/*simulated function PostBeginPlay() 
 {
 	super.PostBeginPlay();
 	
@@ -9,7 +9,7 @@ simulated function PostBeginPlay()
 	Scoreboard.SetViewScaleMode(SM_ExactFit);
 	Scoreboard.SetTimingMode(TM_Real);
 	Scoreboard.ExternalInterface = self;
-}
+}*/
 
 function AddTeamJoinMessage(PlayerReplicationInfo Player, UTTeamInfo NewTeam)
 {
@@ -42,10 +42,12 @@ function OpenOverviewMap()
 	SetVisible(false);
 }
 
-DefaultProperties
+DefaultProperties 
 {
 	GDIColor = "#3260FF"
-	HudMovieClass = class 'S_GFxHud'
-	TargetingBoxClass = class 'Rx_Hud_TargetingBox'
+//	HudMovieClass = class 'S_GFxHud'
+	GIHudMovieClass = class 'S_GFxGameinfoHud'
+	ScoreboardClass = class'S_GFxUIScoreboard'
+	TargetingBoxClass = class 'S_Hud_TargetingBox'
 	PlayerNamesClass = class 'Rx_Hud_PlayerNames'
 }

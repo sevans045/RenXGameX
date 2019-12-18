@@ -1,6 +1,6 @@
 class S_GFxHUD extends Rx_GFxHud;
 
-exec function UpdateHUDVars() 
+/*exec function UpdateHUDVars() 
 {
 	// Grease:	When you have two frames, and an object in each frame with the same name,
 	//			the variables HAVE to be updated, otherwise it will only change the object
@@ -105,9 +105,9 @@ exec function UpdateHUDVars()
 	if(ProxyC4MC != None)
 		ProxyC4MC.GotoAndStopI(2);
 	HideBuildingIcons();
-}
+}*/
 
 DefaultProperties
 {
-	MovieInfo = SwfMovie'SXHUD.RenXHud'
+//	MovieInfo = SwfMovie'SXHUD.RenXHud'
 }

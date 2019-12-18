@@ -10,6 +10,7 @@ simulated function bool IsStealthBlackHand(Rx_PRI pri)
 DefaultProperties
 {
 	GDIItemClasses[0]  = class'Rx_Weapon_NukeBeacon'
-	GDIItemClasses[1]  = class'Rx_Weapon_Airstrike_Nod'
+	GDIItemClasses[1]  = class'S_Weapon_Airstrike_BH'
 	GDIItemClasses[2]  = class'Rx_Weapon_RepairTool'
+	NodItemClasses[1]  = class'S_Weapon_Airstrike_Nod'
 }
