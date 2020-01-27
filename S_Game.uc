@@ -1,5 +1,12 @@
 class S_Game extends Rx_Game;
 
+event InitGame(string Options, out string ErrorMessage)
+{
+    super.InitGame(Options, ErrorMessage);
+    AddMutator("RenX_GameX.S_Nod_EVA");
+    BaseMutator.InitMutator(Options, ErrorMessage);
+}
+
 function static string GetTeamName(byte Index)
 {
 	switch (Index)
