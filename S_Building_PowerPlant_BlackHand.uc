@@ -8,6 +8,8 @@ simulated function String GetHumanReadableName()
 
 DefaultProperties
 {
+    BuildingInternalsClass = S_Building_PowerPlant_BlackHand_Internals
+
 	Begin Object Name=Static_Exterior
 		StaticMesh = StaticMesh'S_BU_PowerPlant.Materials.SM_PP_Exterior_Nod'
 	End Object

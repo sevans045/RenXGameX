@@ -189,5 +189,7 @@ function DelayedGDIConstructionWarn() {
  
 DefaultProperties
 {
+    MessageClass      = class'S_Message_VehicleProduced'
     GDIHarvesterClass = class'S_Vehicle_Harvester_BlackHand'
+    NodHarvesterClass = class'S_Vehicle_Harvester_Nod'
 }

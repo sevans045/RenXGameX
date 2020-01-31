@@ -9,6 +9,7 @@ simulated function String GetHumanReadableName()
 DefaultProperties
 {
 	TeamID = TEAM_GDI
+    BuildingInternalsClass = S_Building_Refinery_BlackHand_Internals
 
 	Begin Object Name=Static_Exterior
 		StaticMesh = StaticMesh'S_BU_Refinery.Mesh.SM_Ref_Exterior_Nod'
