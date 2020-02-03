@@ -7,7 +7,7 @@ var const AudioComponent			EngineSound;
 
 var vector TempLocation;
 var rotator TempRotation;
-var CamControl cc;
+var S_CamControl s_cc;
 
 simulated event PostBeginPlay()
 {
@@ -61,106 +61,106 @@ simulated event PostBeginPlay()
 
 simulated function Start() {
 	SetHidden(false);
-	cc = Spawn( class'CamControl' );
-	cc.bForC130 = true;
-	cc.drs = None;
+	s_cc = Spawn( class'S_CamControl' );
+	s_cc.bForC130 = true;
+	s_cc.drs = None;
 	TempLocation = location - vector(Rotation) * 80000;;
 	TempLocation.z += 8000;	
 	
-	cc.Flag_Locations[0] = TempLocation;
+	s_cc.Flag_Locations[0] = TempLocation;
 	TempLocation = location - vector(Rotation) * 10000;
 	TempLocation.z += 4000;
-	cc.Flag_Locations[1] = TempLocation;
+	s_cc.Flag_Locations[1] = TempLocation;
 	TempLocation = location - vector(Rotation) * 2000;
 	TempLocation.z += 500;
-	cc.Flag_Locations[2] = TempLocation;
+	s_cc.Flag_Locations[2] = TempLocation;
 	TempLocation = location - vector(Rotation) * 800;
 	TempLocation.z += 300;
-	cc.Flag_Locations[3] = TempLocation;	
+	s_cc.Flag_Locations[3] = TempLocation;	
 	TempLocation = location + vector(Rotation) * 100;
 	//TempLocation.y += 100;
 	TempLocation.z += 300;
-	cc.Flag_Locations[4] = TempLocation;
+	s_cc.Flag_Locations[4] = TempLocation;
 	TempLocation = location + vector(Rotation) * 1300;
 	TempLocation.z += 350;
-	cc.Flag_Locations[5] = TempLocation;
+	s_cc.Flag_Locations[5] = TempLocation;
 	TempLocation = location + vector(Rotation) * 7000;
 	TempLocation.z += 2500;
-	cc.Flag_Locations[6] = TempLocation;
+	s_cc.Flag_Locations[6] = TempLocation;
 	TempLocation = location + vector(Rotation) * 80000;
 	TempLocation.z += 8000;
-	cc.Flag_Locations[7] = TempLocation;
+	s_cc.Flag_Locations[7] = TempLocation;
 	TempLocation = location + vector(Rotation) * 140000;
 	TempLocation.z += 10000;
-	cc.Flag_Locations[8] = TempLocation;
+	s_cc.Flag_Locations[8] = TempLocation;
 
-	SetLocation(cc.Flag_Locations[0]);
+	SetLocation(s_cc.Flag_Locations[0]);
 	
 	TempRotation = rotation;
 	TempRotation.pitch -= 500;
 	TempRotation.roll -= 0;
-	cc.Rotation_At_Flags[0] = TempRotation;
+	s_cc.Rotation_At_Flags[0] = TempRotation;
 	TempRotation = rotation;
 	TempRotation.pitch -= 1000;
 	TempRotation.roll -= 0;	
-	cc.Rotation_At_Flags[1] = TempRotation;
+	s_cc.Rotation_At_Flags[1] = TempRotation;
 	TempRotation = rotation;
 	TempRotation.pitch += 0;
 	TempRotation.roll += 100;	
-	cc.Rotation_At_Flags[2] = TempRotation;
+	s_cc.Rotation_At_Flags[2] = TempRotation;
 	TempRotation = rotation;
 	TempRotation.pitch += 600;
 	TempRotation.roll += 50;	
-	cc.Rotation_At_Flags[3] = TempRotation;
+	s_cc.Rotation_At_Flags[3] = TempRotation;
 	TempRotation = rotation;
 	TempRotation.pitch += 1200;
 	TempRotation.roll += -100;	
-	cc.Rotation_At_Flags[4] = TempRotation;
+	s_cc.Rotation_At_Flags[4] = TempRotation;
 	TempRotation = rotation;
 	TempRotation.pitch += 1800;
 	TempRotation.roll -= 50;	
-	cc.Rotation_At_Flags[5] = TempRotation;
+	s_cc.Rotation_At_Flags[5] = TempRotation;
 	TempRotation = rotation;
 	TempRotation.pitch += 2200;
 	TempRotation.roll -= 0;	
-	cc.Rotation_At_Flags[6] = TempRotation;
+	s_cc.Rotation_At_Flags[6] = TempRotation;
 	TempRotation = rotation;
 	TempRotation.pitch += 2000;
 	TempRotation.roll -= 0;	
-	cc.Rotation_At_Flags[7] = TempRotation;
-	cc.Rotation_At_Flags[8] = TempRotation;
+	s_cc.Rotation_At_Flags[7] = TempRotation;
+	s_cc.Rotation_At_Flags[8] = TempRotation;
 	
-	cc.Flag_Fovs[0] = 90;
-	cc.Flag_Fovs[1] = 90;
-	cc.Flag_Fovs[2] = 90;
-	cc.Flag_Fovs[3] = 90;
-	cc.Flag_Fovs[4] = 90;
-	cc.Flag_Fovs[5] = 90;
-	cc.Flag_Fovs[6] = 90;
-	cc.Flag_Fovs[7] = 90;
-	cc.Flag_Fovs[8] = 90;
+	s_cc.Flag_Fovs[0] = 90;
+	s_cc.Flag_Fovs[1] = 90;
+	s_cc.Flag_Fovs[2] = 90;
+	s_cc.Flag_Fovs[3] = 90;
+	s_cc.Flag_Fovs[4] = 90;
+	s_cc.Flag_Fovs[5] = 90;
+	s_cc.Flag_Fovs[6] = 90;
+	s_cc.Flag_Fovs[7] = 90;
+	s_cc.Flag_Fovs[8] = 90;
 	
-	cc.Flag_Times[0] = 0.0;
-	cc.Flag_Times[1] = 3.5;
-	cc.Flag_Times[2] = 5.2;
-	cc.Flag_Times[3] = 5.5;
-	cc.Flag_Times[4] = 5.7;
-	cc.Flag_Times[5] = 6.0;
-	cc.Flag_Times[6] = 7.4;
-	cc.Flag_Times[7] = 12.0;
-	cc.Flag_Times[8] = 13.8;
+	s_cc.Flag_Times[0] = 0.0;
+	s_cc.Flag_Times[1] = 3.5;
+	s_cc.Flag_Times[2] = 5.2;
+	s_cc.Flag_Times[3] = 5.5;
+	s_cc.Flag_Times[4] = 5.7;
+	s_cc.Flag_Times[5] = 6.0;
+	s_cc.Flag_Times[6] = 7.4;
+	s_cc.Flag_Times[7] = 12.0;
+	s_cc.Flag_Times[8] = 13.8;
 	
-	cc.conf = true;
-	cc.z = 9;
-	cc.init();
-	cc.updateSplinef(false);
+	s_cc.conf = true;
+	s_cc.z = 9;
+	s_cc.init();
+	s_cc.updateSplinef(false);
 	
-	cc.timesangleichen();
-	cc.inittimespline();	
-	cc.btimedpath = true;
-	cc.startCam = true;
+	s_cc.timesangleichen();
+	s_cc.inittimespline();	
+	s_cc.btimedpath = true;
+	s_cc.startCam = true;
 	
-	cc.draw_Spline = false;
+	s_cc.draw_Spline = false;
 	SetTimer( 0.005, true );
 	SetTimer(0.5, false, 'StartEngineSound');
 	SkeletalMeshComponent.PlayAnim('VehicleDropoff');	
@@ -168,10 +168,10 @@ simulated function Start() {
 
 simulated function DeactivateMe() {
 	ClearTimer();
-	if(cc != None) {
-		cc.ClearTimer();
+	if(s_cc != None) {
+		s_cc.ClearTimer();
 		EngineSound.Stop();
-		cc.Destroy();
+		s_cc.Destroy();
 		SkeletalMeshComponent.SetHidden(true);
 	}
 	SetTimer(2.0,false,'DestroyMe');
@@ -187,9 +187,9 @@ simulated function StartEngineSound() {
  
 simulated function Timer() 
 {
-	if(cc != None) {
-		SetLocation(cc.location);
-		//SetRotation(cc.rotation);
+	if(s_cc != None) {
+		SetLocation(s_cc.location);
+		//SetRotation(s_cc.rotation);
 	}
 }
 

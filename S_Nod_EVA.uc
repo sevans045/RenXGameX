@@ -29,30 +29,13 @@ function bool CheckReplacement(Actor Other)
         
         if(Building.Class == class'Rx_Building_CommCentre')
             Building.BuildingInternalsClass=class'S_Building_CommCentre_Internals';
-    }
 
- /*  if(Rx_Vehicle_Harvester(Other) != None )
-    {
-            Rx_Vehicle_Harvester(Other).AttackedEvaSounds[0] = SoundCue'S_EVA_VoiceClips.S_CABAL_HarvesterUnderAttackCue';
-            Rx_Vehicle_Harvester(Other).AttackedEvaSounds[1] = SoundCue'S_EVA_VoiceClips.S_CABAL_EnemyHarvesterUnderAttackCue';
-            Rx_Vehicle_Harvester(Other).AttackedEvaSounds[2] = SoundCue'S_EVA_VoiceClips.S_CABAL_EnemyHarvesterUnderAttackCue';
-            Rx_Vehicle_Harvester(Other).AttackedEvaSounds[3] = SoundCue'S_EVA_VoiceClips.S_CABAL_HarvesterUnderAttackCue';
-            Rx_Vehicle_Harvester(Other).DestroyedEvaSounds[0] = SoundCue'S_EVA_VoiceClips.S_CABAL_HarvesterDestroyedCue';
-            Rx_Vehicle_Harvester(Other).DestroyedEvaSounds[1] = SoundCue'S_EVA_VoiceClips.S_CABAL_EnemyHarvesterDestroyedCue';
-            Rx_Vehicle_Harvester(Other).DestroyedEvaSounds[2] = SoundCue'S_EVA_VoiceClips.S_CABAL_EnemyHarvesterDestroyedCue';
-            Rx_Vehicle_Harvester(Other).DestroyedEvaSounds[3] = SoundCue'S_EVA_VoiceClips.S_CABAL_HarvesterDestroyedCue';
-    }*/
+        if(Building.Class == class'Rx_Building_TeamSilo_Nod')
+            Building.BuildingInternalsClass=class'S_Building_TeamSilo_Nod_Internals';
+        
+        if(Building.Class == class'Rx_Building_RepairFacility_Nod')
+            Building.BuildingInternalsClass=class'S_Building_RepairFacility_Nod_Internals';
+    }
 
     return true;
 }
-/*    AttackedEvaSounds(0) = SoundCue'S_EVA_VoiceClips.S_CABAL_HarvesterUnderAttackCue'
-    AttackedEvaSounds(1) = SoundCue'S_EVA_VoiceClips.S_CABAL_EnemyHarvesterUnderAttackCue'
-    AttackedEvaSounds(2) = SoundCue'S_EVA_VoiceClips.S_CABAL_EnemyHarvesterUnderAttackCue'
-    AttackedEvaSounds(3) = SoundCue'S_EVA_VoiceClips.S_CABAL_HarvesterUnderAttackCue'
-    
-    
-
-    DestroyedEvaSounds(0) = SoundCue'S_EVA_VoiceClips.S_CABAL_HarvesterDestroyedCue'
-    DestroyedEvaSounds(1) = SoundCue'S_EVA_VoiceClips.S_CABAL_EnemyHarvesterDestroyedCue'
-    DestroyedEvaSounds(2) = SoundCue'S_EVA_VoiceClips.S_CABAL_EnemyHarvesterDestroyedCue'
-    DestroyedEvaSounds(3) = SoundCue'S_EVA_VoiceClips.S_CABAL_HarvesterDestroyedCue'*/

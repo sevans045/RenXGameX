@@ -1,5 +1,124 @@
 class S_VehicleManager extends Rx_VehicleManager;
  
+function Rx_Building_VehicleFactory GetNearestProduction(Rx_PRI Buyer, out Vector loc, out Rotator rot, optional byte TeamNum)
+{
+    local int i;
+    local float BestDist,CurDist;
+    local Rx_Building_VehicleFactory BestFactory;
+    local bool bActiveBuildingAvailable;
+
+    if(Buyer == None) // Probably Harvy
+    {
+        if(TeamNum == TEAM_GDI)
+        {
+            for(i=0; i<WeaponsFactory.length;i++)
+            {
+                if(BestFactory == None)
+                {
+                    BestDist = VSizeSq(GDITibPoint.Location - WeaponsFactory[i].location);
+                    BestFactory = WeaponsFactory[i];
+                    if(!WeaponsFactory[i].IsDestroyed())
+                        bActiveBuildingAvailable = true;
+                }
+                else if ((bActiveBuildingAvailable && !WeaponsFactory[i].IsDestroyed()) || (!bActiveBuildingAvailable))
+                {
+                    CurDist = VSizeSq(GDITibPoint.Location - WeaponsFactory[i].location);
+                    if(BestDist > CurDist)
+                    {
+                        BestDist = CurDist;
+                        BestFactory = WeaponsFactory[i];
+                    }
+                    if(!bActiveBuildingAvailable &&!WeaponsFactory[i].IsDestroyed())
+                        bActiveBuildingAvailable = true;
+                }
+            }
+            BestFactory.BuildingInternals.BuildingSkeleton.GetSocketWorldLocationAndRotation('Veh_DropOff', loc, rot);
+        }   
+        else if(TeamNum == TEAM_NOD)
+        {
+            for(i=0; i<Airstrip.length;i++)
+            {
+                if(BestFactory == None)
+                {
+                    BestDist = VSizeSq(NodTibPoint.Location - Airstrip[i].location);
+                    BestFactory = Airstrip[i];
+                    if(!AirStrip[i].IsDestroyed())
+                        bActiveBuildingAvailable = true;            
+                }
+                else if ((bActiveBuildingAvailable && !AirStrip[i].IsDestroyed()) || (!bActiveBuildingAvailable))
+                {
+                    CurDist = VSizeSq(NodTibPoint.Location - Airstrip[i].location);
+                    if(BestDist > CurDist)
+                    {
+                        BestDist = CurDist;
+                        BestFactory = Airstrip[i];
+                        if(!bActiveBuildingAvailable && !AirStrip[i].IsDestroyed())
+                            bActiveBuildingAvailable = true;
+                    }
+                }
+            }
+            BestFactory.BuildingInternals.BuildingSkeleton.GetSocketWorldLocationAndRotation('Veh_DropOff', loc, rot);
+        }       
+    }
+
+    else if(Buyer.GetTeamNum() == TEAM_GDI)
+    {           
+        for(i=0; i<WeaponsFactory.length;i++)
+        {
+            if(BestFactory == None)
+            {
+                BestDist = VSizeSq(Controller(Buyer.Owner).Pawn.Location - WeaponsFactory[i].location);
+                BestFactory = WeaponsFactory[i];
+                if(!WeaponsFactory[i].IsDestroyed())
+                    bActiveBuildingAvailable = true;
+            }
+            else if ((bActiveBuildingAvailable && !WeaponsFactory[i].IsDestroyed()) || (!bActiveBuildingAvailable))
+            {
+                CurDist = VSizeSq(Controller(Buyer.Owner).Pawn.Location - WeaponsFactory[i].location);
+                if(BestDist > CurDist)
+                {
+                    BestDist = CurDist;
+                    BestFactory = WeaponsFactory[i];
+                }
+                if(!bActiveBuildingAvailable &&!WeaponsFactory[i].IsDestroyed())
+                    bActiveBuildingAvailable = true;
+            }
+        }
+        BestFactory.BuildingInternals.BuildingSkeleton.GetSocketWorldLocationAndRotation('Veh_DropOff', loc, rot);
+    }
+    else if(Buyer.GetTeamNum() == TEAM_NOD)
+    {
+        for(i=0; i<Airstrip.length;i++)
+        {
+            if(BestFactory == None)
+            {
+                BestDist = VSizeSq(Controller(Buyer.Owner).Pawn.Location - Airstrip[i].location);
+                BestFactory = Airstrip[i];
+                if(!AirStrip[i].IsDestroyed())
+                    bActiveBuildingAvailable = true;            
+            }
+            else if ((bActiveBuildingAvailable && !AirStrip[i].IsDestroyed()) || (!bActiveBuildingAvailable))
+            {
+                CurDist = VSizeSq(Controller(Buyer.Owner).Pawn.Location - Airstrip[i].location);
+                if(BestDist > CurDist) 
+                {
+                    BestDist = CurDist;
+                    BestFactory = Airstrip[i];
+                    if(!bActiveBuildingAvailable && !AirStrip[i].IsDestroyed())
+                        bActiveBuildingAvailable = true;
+                }
+            }
+        }
+        BestFactory.BuildingInternals.BuildingSkeleton.GetSocketWorldLocationAndRotation('Veh_DropOff', loc, rot);
+
+    }
+    if(BestFactory != None)
+        return BestFactory;
+
+        return None;
+
+}
+
 function bool QueueVehicle(class<Rx_Vehicle> inVehicleClass, Rx_PRI Buyer, int VehicleID)
 {
     local VQueueElement NewQueueElement;
@@ -61,20 +180,46 @@ function bool QueueVehicle(class<Rx_Vehicle> inVehicleClass, Rx_PRI Buyer, int V
    
     return true;
 }
- 
-function SpawnC130GDI()
+
+function SpawnC130() 
 {
     local vector loc;
- 
-    if(bGDIIsUsingAirdrops || !WeaponsFactory[0].SpawnsC130)
+    local rotator C130Rot;
+
+    if(bNodIsUsingAirdrops || !NOD_Queue[0].Factory.SpawnsC130)
         return;
-    if(WeaponsFactory[0] != None) {
-        loc = GDI_ProductionPlace.L;       
-        loc.z -= 100;
+    if(AirStrip.Length > 0) 
+    {
+          loc = NOD_Queue[0].L;     
+          loc.z -= 100;
+          C130Rot = NOD_Queue[0].R;
+          C130Rot.yaw += 32768; 
         if ( Rx_MapInfo(WorldInfo.GetMapInfo()).NodAirstripDropoffHeightOffset > 0 )
             loc.z += Rx_MapInfo(WorldInfo.GetMapInfo()).NodAirstripDropoffHeightOffset;
+
+            Spawn(class'Rx_C130',,,loc,C130Rot,,true);
+            `log("C130 Nod spawn: loc" `s loc `s "C130Rot" `s C130Rot);
+    }
+}
  
-        Spawn(class'S_C130',,,loc,WeaponsFactory[0].rotation,,true);
+function SpawnC130GDI() 
+{
+    local vector loc;
+    local rotator C130Rot;
+
+    if(bGDIIsUsingAirdrops || !GDI_Queue[0].Factory.SpawnsC130)
+        return;
+    if(AirStrip.Length > 0) 
+    {
+          loc = GDI_Queue[0].L;     
+          loc.z -= 100;
+          C130Rot = GDI_Queue[0].R;
+          C130Rot.yaw += 32768; 
+        if ( Rx_MapInfo(WorldInfo.GetMapInfo()).NodAirstripDropoffHeightOffset > 0 )
+            loc.z += Rx_MapInfo(WorldInfo.GetMapInfo()).NodAirstripDropoffHeightOffset;
+
+            Spawn(class'S_C130',,,loc,C130Rot,,true);
+            `log("C130 GDI spawn: loc" `s loc `s "C130Rot" `s C130Rot);
     }
 }
  
@@ -120,23 +265,22 @@ function Actor SpawnVehicle(VQueueElement VehToSpawn, optional byte TeamNum = -1
         case TEAM_GDI: // buy for GDI
             if(bGDIIsUsingAirdrops)
             {
-                TempLoc = GDI_ProductionPlace.L;
-                if (WeaponsFactory[0] != None)
+                TempLoc = VehToSpawn.L;
+                if (AirStrip.length > 0)
                     TempLoc.Z -= 500;
                    
-                AirdropingChinook = Spawn(class'Rx_Chinook_Airdrop', , , TempLoc, GDI_ProductionPlace.R, , false);
+                AirdropingChinook = Spawn(class'Rx_Chinook_Airdrop', , , TempLoc, VehToSpawn.R, , false);
                 AirdropingChinook.initialize(VehToSpawn.Buyer,VehToSpawn.VehicleID, TeamNum);          
             }
             else
             {
-                SpawnLocation = GDI_ProductionPlace.L;
+                SpawnLocation = VehToSpawn.L;
                 if (Rx_MapInfo(WorldInfo.GetMapInfo()).NodAirstripDropoffHeightOffset > 0 )
                     SpawnLocation.Z += Rx_MapInfo(WorldInfo.GetMapInfo()).NodAirstripDropoffHeightOffset ;
-                    Veh = Spawn(VehToSpawn.VehClass,,, SpawnLocation,GDI_ProductionPlace.R,,true);
-                    Veh.Mesh.CreateAndSetMaterialInstanceConstant(0).SetVectorParameterValue('Camo_Colour', NewColor);
+                    Veh = Spawn(VehToSpawn.VehClass,,, SpawnLocation,VehToSpawn.R,,true);
             }
         break;
-    }Veh.Mesh.CreateAndSetMaterialInstanceConstant(0).SetVectorParameterValue('Camo_Colour', NewColor);
+    }
  
     if (AirdropingChinook != none  )
     {
