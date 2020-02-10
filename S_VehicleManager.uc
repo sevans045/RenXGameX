@@ -119,6 +119,77 @@ function Rx_Building_VehicleFactory GetNearestProduction(Rx_PRI Buyer, out Vecto
 
 }
 
+function QueueHarvester(byte team, bool bWithIncreasedDelay)
+{
+    local VQueueElement NewQueueElement;
+    
+    NewQueueElement.Buyer = None;
+
+    if(team == TEAM_NOD) 
+    {
+        if(bNodRefDestroyed)
+            return;
+
+        if(Airstrip.Length > 0)
+            NewQueueElement.Factory = GetNearestProduction(None,NewQueueElement.L,NewQueueElement.R,team);
+        else
+        {
+            NewQueueElement.L = NOD_ProductionPlace.L;
+            NewQueueElement.R = NOD_ProductionPlace.R;          
+        }
+        NewQueueElement.VehClass  = NodHarvesterClass;
+        NewQueueElement.VehicleID = 255;//8;
+        NOD_Queue.AddItem(NewQueueElement);
+        if (!IsTimerActive('queueWork_NOD'))
+        {
+           if(bWithIncreasedDelay)
+           {
+             SetTimer(ProductionDelay + 10.0, false, 'queueWork_NOD');
+             if(!AreTeamFactoriesDestroyed(TEAM_NOD))
+                SetTimer(10.0,false,'SpawnC130');
+           }
+           else
+           {
+             if(!AreTeamFactoriesDestroyed(TEAM_NOD))
+                SpawnC130();
+             SetTimer(ProductionDelay, false, 'queueWork_NOD'); 
+           }
+        }
+    } 
+    else if(team == TEAM_GDI) 
+    {
+        if(bGDIRefDestroyed)
+            return;
+ 
+        if(WeaponsFactory.Length > 0)
+            NewQueueElement.Factory = GetNearestProduction(None,NewQueueElement.L,NewQueueElement.R,team);      
+        else
+        {
+            NewQueueElement.L = GDI_ProductionPlace.L;
+            NewQueueElement.R = GDI_ProductionPlace.R;          
+        }       
+
+        NewQueueElement.VehClass  = GDIHarvesterClass;
+        NewQueueElement.VehicleID = 254 ;//7;
+        GDI_Queue.AddItem(NewQueueElement);
+        if (!IsTimerActive('queueWork_GDI'))
+        {          
+           if(bWithIncreasedDelay)
+           {
+             SetTimer(ProductionDelay + 10.0, false, 'queueWork_GDI');
+                if(!AreTeamFactoriesDestroyed(TEAM_GDI))
+                SetTimer(10.0,false,'SpawnC130GDI');
+           }
+           else
+           {
+             if(!AreTeamFactoriesDestroyed(TEAM_GDI))
+                SpawnC130GDI();
+             SetTimer(ProductionDelay, false, 'queueWork_GDI'); 
+           }           
+        }       
+    }       
+}
+
 function bool QueueVehicle(class<Rx_Vehicle> inVehicleClass, Rx_PRI Buyer, int VehicleID)
 {
     local VQueueElement NewQueueElement;
@@ -230,12 +301,6 @@ function Actor SpawnVehicle(VQueueElement VehToSpawn, optional byte TeamNum = -1
     local Vector SpawnLocation;
     local Rx_Chinook_Airdrop AirdropingChinook;
     local vector TempLoc;
-    local LinearColor NewColor;
- 
-    NewColor.R = 0.0;
-    NewColor.G = 0.0;
-    NewColor.B = 1.0;
-    NewColor.A = 1.0;
    
     if (TeamNum < 0)
         TeamNum = VehToSpawn.Buyer.GetTeamNum();

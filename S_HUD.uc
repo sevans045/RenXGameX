@@ -45,9 +45,10 @@ function OpenOverviewMap()
 DefaultProperties 
 {
 	GDIColor = "#3260FF"
-//	HudMovieClass = class 'S_GFxHud'
+	HudMovieClass = class 'S_GFxHud'
 	GIHudMovieClass = class 'S_GFxGameinfoHud'
 	ScoreboardClass = class'S_GFxUIScoreboard'
 	TargetingBoxClass = class 'S_Hud_TargetingBox'
 	PlayerNamesClass = class 'Rx_Hud_PlayerNames'
+	OverviewMapClass = class'S_GfxOverviewMap'
 }

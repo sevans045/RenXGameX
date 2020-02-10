@@ -1,5 +1,7 @@
 class S_Knoten extends Actor;
 
+//heil germany
+
 var bool zeichner;
 var bool hasSpawnedcc;
 var bool b;
@@ -11,7 +13,7 @@ var int z; // counts points / Knoten
 var rotator rotat;
 var S_CamControl cc;
 var S_Knoten knoten2, other;
-var bool bForC130;
+var bool bForC130 ;
 
 function PostBeginPlay()
 {
